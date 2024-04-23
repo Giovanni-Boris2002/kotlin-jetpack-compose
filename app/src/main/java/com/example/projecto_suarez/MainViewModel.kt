@@ -21,9 +21,6 @@ class MainViewModel @Inject constructor(
     private val appEntryUseCases: AppEntryUseCases
 ): ViewModel() {
 
-    private val _isReady = MutableStateFlow(true)
-    val isReady = _isReady.asStateFlow()
-
     var splashCondition by mutableStateOf(true)
         private set
     var startDestination by mutableStateOf(Route.AppStartNavigation.route)
