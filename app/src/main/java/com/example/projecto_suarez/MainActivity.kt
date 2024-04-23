@@ -3,6 +3,7 @@ package com.example.projecto_suarez
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -19,10 +20,19 @@ import androidx.core.animation.doOnEnd
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
+import com.example.projecto_suarez.domain.usescases.AppEntryUseCases
+import com.example.projecto_suarez.presentation.navgraph.NavGraph
 import com.example.projecto_suarez.presentation.onboarding.OnBoardingScreen
+import com.example.projecto_suarez.presentation.onboarding.OnBoardingViewModel
 import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
@@ -32,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                !viewModel.isReady.value
+                !viewModel.splashCondition
             }
             setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(
@@ -59,16 +69,20 @@ class MainActivity : ComponentActivity() {
                 zoomY.start()
             }
         }
+
         setContent {
             ProjectosuarezTheme {
                 // A surface container using the 'background' color from the theme
                 Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    OnBoardingScreen()
+                    val startDestination = viewModel.startDestination
+                    NavGraph(startDestination = startDestination)
                 }
             }
         }
     }
 }
+
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
