@@ -1,9 +1,7 @@
 package com.example.projecto_suarez
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -12,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -24,17 +21,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.lifecycleScope
-import com.example.projecto_suarez.domain.usescases.AppEntryUseCases
 import com.example.projecto_suarez.presentation.navgraph.NavGraph
-import com.example.projecto_suarez.presentation.onboarding.OnBoardingScreen
-import com.example.projecto_suarez.presentation.onboarding.OnBoardingViewModel
 import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
