@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.projecto_suarez.presentation.home.HomeScreen
 import com.example.projecto_suarez.presentation.home.HomeViewModel
+import com.example.projecto_suarez.presentation.news_navigator.NewsNavigator
 import com.example.projecto_suarez.presentation.onboarding.OnBoardingScreen
 import com.example.projecto_suarez.presentation.onboarding.OnBoardingViewModel
 import com.example.projecto_suarez.presentation.search.SearchScreen
@@ -44,9 +45,7 @@ fun NavGraph(
             composable(
                 route = Route.NewsNavigatorScreen.route
             ){
-                val viewModel: SearchViewModel = hiltViewModel()
-
-                SearchScreen(state = viewModel.state.value, event = viewModel::onEvent, navigate = {})
+                NewsNavigator()
             }
         }
     }

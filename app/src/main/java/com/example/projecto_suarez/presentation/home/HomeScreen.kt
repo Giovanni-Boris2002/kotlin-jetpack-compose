@@ -30,7 +30,11 @@ import com.example.projecto_suarez.presentation.common.SearchBar
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
+fun HomeScreen(
+    articles: LazyPagingItems<Article>,
+    navigateToSearch: () -> Unit,
+    navigateToDetails: (Article) -> Unit
+){
     val titles by remember {
         derivedStateOf {
             if(articles.itemCount > 10){
@@ -64,7 +68,7 @@ fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
             readOnly = true,
             onValueChange = {},
             onClick = {},
-            onSearch = {}
+            onSearch = navigateToSearch
         )
         Spacer(modifier = Modifier.height(MediumPadding1))
 
@@ -81,9 +85,7 @@ fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
         ArticlesList(
             modifier = Modifier.padding(horizontal = MediumPadding1),
             articles = articles,
-            onClick = {
-                //TODO: Navigate to Details Screen
-            }
+            onClick = navigateToDetails
         )
     }
 

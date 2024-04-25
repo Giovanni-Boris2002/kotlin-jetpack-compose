@@ -29,7 +29,7 @@ fun ArticlesList(
                 count = articles.size,
             ) {
                 var article = articles[it]
-                    ArticleCard(article = article, onClick = {onClick(article)})
+                ArticleCard(article = article, onClick = {onClick(article)})
             }
         }
 }
