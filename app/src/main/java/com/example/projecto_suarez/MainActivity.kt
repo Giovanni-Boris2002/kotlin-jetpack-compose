@@ -81,6 +81,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    companion object {
+        val TAG = "MainActivity"
+    }
+
 }
 
 

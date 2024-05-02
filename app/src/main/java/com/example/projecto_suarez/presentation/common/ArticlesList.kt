@@ -37,7 +37,7 @@ fun ArticlesList(
         }
 }
 @Composable
-fun ArticlesList(
+fun  ArticlesList(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
     onClick: (Article) -> Unit

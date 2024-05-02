@@ -28,6 +28,8 @@ import com.example.projecto_suarez.presentation.details.DetailsScreen
 import com.example.projecto_suarez.presentation.details.DetailsViewModel
 import com.example.projecto_suarez.presentation.home.HomeScreen
 import com.example.projecto_suarez.presentation.home.HomeViewModel
+import com.example.projecto_suarez.presentation.map.BeaconViewModel
+import com.example.projecto_suarez.presentation.map.MapScreen
 import com.example.projecto_suarez.presentation.navgraph.Route
 import com.example.projecto_suarez.presentation.news_navigator.components.BottomNavigationItem
 import com.example.projecto_suarez.presentation.news_navigator.components.NewsBottomNavigation
@@ -42,6 +44,7 @@ fun NewsNavigator() {
             BottomNavigationItem(icon = R.drawable.ic_home, text = "Home"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Search"),
             BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Bookmark"),
+            BottomNavigationItem(icon = R.drawable.ic_preferences, text = "Map"),
         )
     }
 
@@ -55,6 +58,7 @@ fun NewsNavigator() {
         Route.HomeScreen.route -> 0
         Route.SearchScreen.route -> 1
         Route.BookmarkScreen.route -> 2
+        Route.MapScreen.route -> 3
         else -> 0
     }
 
@@ -62,7 +66,9 @@ fun NewsNavigator() {
     val isBottomBarVisible = remember(key1 = backStackState) {
         backStackState?.destination?.route == Route.HomeScreen.route ||
                 backStackState?.destination?.route == Route.SearchScreen.route ||
-                backStackState?.destination?.route == Route.BookmarkScreen.route
+                backStackState?.destination?.route == Route.BookmarkScreen.route ||
+                backStackState?.destination?.route == Route.MapScreen.route
+
     }
     Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
         if (isBottomBarVisible) {
@@ -84,6 +90,10 @@ fun NewsNavigator() {
                         2 -> navigateToTab(
                             navController = navController,
                             route = Route.BookmarkScreen.route
+                        )
+                        3 -> navigateToTab(
+                            navController = navController,
+                            route = Route.MapScreen.route
                         )
                     }
                 }
@@ -161,6 +171,14 @@ fun NewsNavigator() {
                         )
                     }
                 )
+            }
+            composable(route = Route.MapScreen.route) {
+                //val viewModel: BookmarkViewModel = hiltViewModel()
+                //val state = viewModel.state.value
+                //OnBackClickStateSaver(navController = navController)
+                val viewModel: BeaconViewModel = hiltViewModel()
+
+                MapScreen()
             }
         }
     }
