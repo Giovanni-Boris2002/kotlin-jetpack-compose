@@ -1,14 +1,14 @@
 package com.example.projecto_suarez.services
+
 import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import com.example.projecto_suarez.MainActivity
 import org.altbeacon.beacon.*
-
+import com.example.projecto_suarez.R
 class BeaconReference (
     private val context: Context
 ){
@@ -101,6 +101,7 @@ class BeaconReference (
 
     fun setupForegroundService() {
         val builder = Notification.Builder(context, "BeaconReferenceApp")
+        builder.setSmallIcon(R.drawable.logo)
         builder.setContentTitle("Scanning for Beacons")
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
@@ -124,6 +125,7 @@ class BeaconReference (
         val builder = NotificationCompat.Builder(context, "beacon-ref-notification-id")
             .setContentTitle("Beacon Reference Application")
             .setContentText("A beacon is nearby.")
+            .setSmallIcon(R.drawable.logo)
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntent(Intent(context, MainActivity::class.java))
         val resultPendingIntent = stackBuilder.getPendingIntent(
