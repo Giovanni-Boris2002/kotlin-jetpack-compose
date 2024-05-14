@@ -6,9 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.altbeacon.beacon.RegionViewModel
 
 @Composable
-fun MapScreen() {
+fun MapScreen(state: MapState) {
 
     Column(
         modifier = Modifier
@@ -17,6 +18,10 @@ fun MapScreen() {
     ) {
         Text("Detected Beacons:")
         Spacer(modifier = Modifier.height(8.dp))
+        state.beacons?.forEach { beacon ->
+            Text(text = beacon)
+            Spacer(modifier = Modifier.height(4.dp))
+        }
 
     }
 }

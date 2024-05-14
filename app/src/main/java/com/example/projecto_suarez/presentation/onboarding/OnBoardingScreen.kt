@@ -1,4 +1,4 @@
-package com.example.projecto_suarez.presentation.onboarding
+ package com.example.projecto_suarez.presentation.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement

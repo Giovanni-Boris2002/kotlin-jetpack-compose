@@ -177,8 +177,9 @@ fun NewsNavigator() {
                 //val state = viewModel.state.value
                 //OnBackClickStateSaver(navController = navController)
                 val viewModel: BeaconViewModel = hiltViewModel()
+                val state = viewModel.state.value
 
-                MapScreen()
+                MapScreen(state)
             }
         }
     }

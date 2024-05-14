@@ -42,7 +42,11 @@ import com.example.projecto_suarez.presentation.navgraph.NavGraph
 import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 import dagger.hilt.android.AndroidEntryPoint
 import android.Manifest
+import android.util.Log
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.launch
@@ -50,7 +54,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -134,11 +137,11 @@ class MainActivity : ComponentActivity() {
                 onDispose {
                     lifecycleOwner.lifecycle.removeObserver(observer)
                 }
-            }
-            )
+            })
 
             val scope = rememberCoroutineScope()
             val snackbarHostState = remember { SnackbarHostState() }
+
             ProjectosuarezTheme {
                 val isSystemInDarkMode = isSystemInDarkTheme()
                 val systemController = rememberSystemUiController()
@@ -149,35 +152,42 @@ class MainActivity : ComponentActivity() {
                         darkIcons = !isSystemInDarkMode
                     )
                 }
-                // A surface container using the 'background' color from the theme
-                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    NavGraph(startDestination = viewModel.startDestination)
-                }
-                if (shouldShowPermissionRationale) {
-                    LaunchedEffect(Unit) {
-                        scope.launch {
-                            val userAction = snackbarHostState.showSnackbar(
-                                message ="Please authorize location permissions",
-                                actionLabel = "Approve",
-                                duration = SnackbarDuration.Indefinite,
-                                withDismissAction = true
-                            )
-                            when (userAction) {
-                                SnackbarResult.ActionPerformed -> {
-                                    shouldShowPermissionRationale = false
-                                    locationPermissionLauncher.launch(locationPermissions)
-                                }
-                                SnackbarResult.Dismissed -> {
-                                    shouldShowPermissionRationale = false
-                                }
+                Scaffold(snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                }) { contentPadding ->
+                    // A surface container using the 'background' color from the theme
+                    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                        NavGraph(startDestination = viewModel.startDestination)
+                    }
+                    Log.d("Padding", contentPadding.toString())
+                    if (shouldShowPermissionRationale) {
+                        LaunchedEffect(Unit) {
+                            scope.launch {
+                                val userAction = snackbarHostState.showSnackbar(
+                                    message ="Please authorize location permissions",
+                                    actionLabel = "Approve",
+                                    duration = SnackbarDuration.Indefinite,
+                                    withDismissAction = true
+                                )
+                                when (userAction) {
+                                    SnackbarResult.ActionPerformed -> {
+                                        shouldShowPermissionRationale = false
+                                        locationPermissionLauncher.launch(locationPermissions)
+                                    }
+                                    SnackbarResult.Dismissed -> {
+                                        shouldShowPermissionRationale = false
+                                    }
 
+                                }
                             }
                         }
                     }
+                    if (shouldDirectUserToApplicationSettings) {
+                        openApplicationSettings()
+                    }
                 }
-                if (shouldDirectUserToApplicationSettings) {
-                    openApplicationSettings()
-                }
+
+
             }
         }
     }
