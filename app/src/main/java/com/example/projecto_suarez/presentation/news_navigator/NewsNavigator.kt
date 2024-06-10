@@ -1,5 +1,6 @@
 package com.example.projecto_suarez.presentation.news_navigator
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,6 +41,7 @@ import com.example.projecto_suarez.presentation.search.SearchViewModel
 
 @Composable
 fun NewsNavigator() {
+    val context = LocalContext.current
 
     val bottomNavigationItems = remember {
         listOf(
@@ -142,11 +146,14 @@ fun NewsNavigator() {
             }
             composable(route = Route.DetailsScreen.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()
+
+
                 if(viewModel.sideEffect != null){
                     Toast.makeText(LocalContext.current, viewModel.sideEffect, Toast.LENGTH_SHORT)
                         .show()
                     viewModel.onEvent(DetailsEvent.RemoveSideEffect)
                 }
+
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
                     ?.let { article ->
                         DetailsScreen(
