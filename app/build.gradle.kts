@@ -107,4 +107,7 @@ dependencies {
     //Player
     implementation ("androidx.media3:media3-exoplayer:1.1.1")
 
+
+    //Camara
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 }

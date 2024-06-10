@@ -6,11 +6,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projecto_suarez.presentation.common.ScanCamara
 import org.altbeacon.beacon.RegionViewModel
 
 @Composable
 fun MapScreen(state: MapState) {
+    ScanCamara(){
 
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,4 +27,5 @@ fun MapScreen(state: MapState) {
         }
 
     }
+    Text("Detected Beacons:")
 }
