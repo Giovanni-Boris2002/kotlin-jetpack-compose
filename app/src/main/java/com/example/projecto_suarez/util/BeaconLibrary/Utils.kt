@@ -1,4 +1,4 @@
-package com.idnp2024a.beaconscanner.BeaconLibrary
+package com.example.projecto_suarez.util.BeaconLibrary
 
 object Utils {
     @OptIn(ExperimentalStdlibApi::class)

@@ -21,6 +21,7 @@ import com.example.projecto_suarez.domain.usescases.news.SelectArticle
 import com.example.projecto_suarez.domain.usescases.news.SelectArticles
 import com.example.projecto_suarez.domain.usescases.news.UpsertArticle
 import com.example.projecto_suarez.services.BeaconReference
+import com.example.projecto_suarez.services.BeaconScanner
 import com.example.projecto_suarez.util.Constants.BASE_URL
 import com.example.projecto_suarez.util.Constants.NEWS_DATABASE_NAME
 import dagger.Module
@@ -106,4 +107,10 @@ object AppModule {
     fun provideBeaconReference(
         application: Application
     ) : BeaconReference = BeaconReference(application)
+
+    @Provides
+    @Singleton
+    fun provideBeaconScanner(
+        application: Application
+    ) : BeaconScanner = BeaconScanner(application)
 }

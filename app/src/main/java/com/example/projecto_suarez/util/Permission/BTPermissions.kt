@@ -1,16 +1,16 @@
 package com.idnp2024a.beaconscanner.permissions
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.idnp2024a.beaconscanner.MainActivityBLE
+import com.example.projecto_suarez.MainActivity
 
-class BTPermissions(private val activity: MainActivityBLE) {
+class BTPermissions(private val activity: MainActivity) {
     private val TAG = "BTPermissions"
     private lateinit var permissionsList: ArrayList<String>
     private var permissionsCount = 0

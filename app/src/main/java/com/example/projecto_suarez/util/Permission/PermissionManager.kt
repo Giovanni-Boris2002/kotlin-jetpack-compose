@@ -6,13 +6,13 @@ import android.Manifest.permission.BLUETOOTH
 import android.Manifest.permission.BLUETOOTH_ADMIN
 import android.Manifest.permission.BLUETOOTH_CONNECT
 import android.Manifest.permission.BLUETOOTH_SCAN
+import android.app.AlertDialog
 import android.content.pm.PackageManager
+import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class PermissionManager private constructor(private val activity: AppCompatActivity) {
+class PermissionManager private constructor(private val activity: ComponentActivity) {
     private val requiredPermissions = mutableListOf<Permission>()
     private var rationale: String? = null
     private var callback: (Boolean) -> Unit = {}
@@ -25,7 +25,7 @@ class PermissionManager private constructor(private val activity: AppCompatActiv
     }
 
     companion object {
-        fun from(activity: AppCompatActivity) = PermissionManager(activity)
+        fun from(activity: ComponentActivity) = PermissionManager(activity)
     }
 
     fun rationale(description: String): PermissionManager {
@@ -53,7 +53,7 @@ class PermissionManager private constructor(private val activity: AppCompatActiv
         }
     }
 
-    private fun displayRationale(activity: AppCompatActivity) {
+    private fun displayRationale(activity: ComponentActivity) {
         AlertDialog.Builder(activity.applicationContext)
             .setTitle("Permiso")
             .setMessage(rationale ?: "fragment.getString(R.string.dialog_permission_default_message)")
@@ -85,24 +85,24 @@ class PermissionManager private constructor(private val activity: AppCompatActiv
         permissionCheck?.launch(getPermissionList())
     }
 
-    private fun areAllPermissionsGranted(activity: AppCompatActivity) =
+    private fun areAllPermissionsGranted(activity: ComponentActivity) =
         requiredPermissions.all {
         it.isGranted(activity)
     }
 
-    private fun shouldShowPermissionRationale(activity: AppCompatActivity) =
+    private fun shouldShowPermissionRationale(activity: ComponentActivity) =
         requiredPermissions.any { it.requiresRationale(activity) }
 
     private fun getPermissionList() =
         requiredPermissions.flatMap { it.permissions.toList() }.toTypedArray()
 
-    private fun Permission.isGranted(activity: AppCompatActivity) =
+    private fun Permission.isGranted(activity: ComponentActivity) =
         permissions.all { hasPermission(activity, it) }
 
-    private fun Permission.requiresRationale(activity: AppCompatActivity) =
+    private fun Permission.requiresRationale(activity: ComponentActivity) =
         permissions.any { activity.shouldShowRequestPermissionRationale(it) }
 
-    private fun hasPermission(fragment: AppCompatActivity, permission: String) =
+    private fun hasPermission(fragment: ComponentActivity, permission: String) =
         ContextCompat.checkSelfPermission(
             fragment.applicationContext, permission
         ) == PackageManager.PERMISSION_GRANTED

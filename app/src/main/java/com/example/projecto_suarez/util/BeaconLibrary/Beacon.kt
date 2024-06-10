@@ -1,4 +1,4 @@
-package com.idnp2024a.beaconscanner.BeaconLibrary
+package com.example.projecto_suarez.util.BeaconLibrary
 
 class Beacon(
     val macAddress: String?,
