@@ -20,7 +20,6 @@ import com.example.projecto_suarez.domain.usescases.news.SearchNews
 import com.example.projecto_suarez.domain.usescases.news.SelectArticle
 import com.example.projecto_suarez.domain.usescases.news.SelectArticles
 import com.example.projecto_suarez.domain.usescases.news.UpsertArticle
-import com.example.projecto_suarez.services.BeaconReference
 import com.example.projecto_suarez.services.BeaconScanner
 import com.example.projecto_suarez.util.Constants.BASE_URL
 import com.example.projecto_suarez.util.Constants.NEWS_DATABASE_NAME
@@ -30,7 +29,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -102,11 +100,6 @@ object AppModule {
     fun provideNewsDao(
         newsDatabase: NewsDatabase
     ) : NewsDao = newsDatabase.newsDao
-    @Provides
-    @Singleton
-    fun provideBeaconReference(
-        application: Application
-    ) : BeaconReference = BeaconReference(application)
 
     @Provides
     @Singleton
