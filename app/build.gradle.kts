@@ -104,4 +104,7 @@ dependencies {
     //Beacons
     implementation ("org.altbeacon:android-beacon-library:2+")
 
+    //Player
+    implementation ("androidx.media3:media3-exoplayer:1.1.1")
+
 }

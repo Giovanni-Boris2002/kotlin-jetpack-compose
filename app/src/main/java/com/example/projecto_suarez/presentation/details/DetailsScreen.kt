@@ -8,16 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecto_suarez.R
@@ -25,6 +31,7 @@ import com.example.projecto_suarez.domain.model.Article
 import com.example.projecto_suarez.domain.model.Source
 import com.example.projecto_suarez.presentation.Dimens.ArticleImageHeight
 import com.example.projecto_suarez.presentation.Dimens.MediumPadding1
+import com.example.projecto_suarez.presentation.common.MusicPlayer
 import com.example.projecto_suarez.presentation.details.components.DetailsTopBar
 import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 
@@ -35,6 +42,24 @@ fun DetailsScreen(
     navigateUp: () -> Unit
 ){
     val context = LocalContext.current
+    val player = remember { ExoPlayer.Builder(context).build() }
+    val mediaSource = remember { MediaItem.fromUri("https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3") }
+
+    /*LaunchedEffect(Unit) {
+        Log.d("My component", "Release")
+        player.setMediaItem(mediaSource)
+        player.prepare()
+    }*/
+
+    // Manage lifecycle events
+    DisposableEffect(Unit) {
+        player.setMediaItem(mediaSource)
+        player.prepare()
+
+        onDispose {
+            player.release()
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,6 +122,10 @@ fun DetailsScreen(
                         id = R.color.body
                     )
                 )
+                Spacer(modifier = Modifier.height(MediumPadding1))
+                MusicPlayer(player)
+                Spacer(modifier = Modifier.height(MediumPadding1))
+
             }
         }
     }
