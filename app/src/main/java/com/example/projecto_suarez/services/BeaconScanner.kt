@@ -16,6 +16,8 @@ import com.example.projecto_suarez.util.BeaconLibrary.Beacon
 import com.example.projecto_suarez.util.BeaconLibrary.BeaconParser
 import com.example.projecto_suarez.util.BeaconLibrary.BleScanCallback
 import com.example.projecto_suarez.util.Constants
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 class BeaconScanner(private val context: Context) {
@@ -24,7 +26,10 @@ class BeaconScanner(private val context: Context) {
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private var btScanner: BluetoothLeScanner? = null;
-    private val beacons = HashMap<String, Beacon>()
+    private val beacons = HashMap<String, Beacon>();
+    private val _resultBeacons = MutableStateFlow("No beacons Detected")
+    val resultBeacons: StateFlow<String> = _resultBeacons
+
 
     fun initBluetooth() {
 
@@ -98,6 +103,7 @@ class BeaconScanner(private val context: Context) {
                     beaconSave.rssi = parserBeacon.rssi
                 };
                 val distance = parserBeacon.txPower?.let { it1 -> parserBeacon.rssi?.let { it2 -> beaconSave?.calculateDistance(txPower = it1, rssi = it2) } }
+                _resultBeacons.value =  beaconSave.toString() + "distance "+ distance;
                 Log.d(TAG, beaconSave.toString() + "distance "+ distance);
 
             }
@@ -119,5 +125,8 @@ class BeaconScanner(private val context: Context) {
         onBatchScanResultAction,
         onScanFailedAction
     )
+    fun changeDetection(updateUI: (String)->Unit, result:String){
+        updateUI(result)
+    }
 
 }

@@ -10,6 +10,7 @@ import com.example.projecto_suarez.presentation.common.ScanCamara
 
 @Composable
 fun MapScreen(
+    result: String,
     state: MapState,
     event: (MapEvent) -> Unit,
     navigateToDetails: (Article) -> Unit) {
@@ -22,6 +23,7 @@ fun MapScreen(
             .padding(16.dp)
     ) {
         Text("Detected Beacons:")
+        Text(result)
         Spacer(modifier = Modifier.height(8.dp))
         state.beacons?.forEach { beacon ->
             Text(text = beacon)

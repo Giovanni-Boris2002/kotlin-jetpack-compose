@@ -1,5 +1,6 @@
 package com.example.projecto_suarez.presentation.map
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 
@@ -17,13 +18,21 @@ import javax.inject.Inject
 class BeaconViewModel @Inject constructor(
     private val beaconScanner: BeaconScanner,
     private val newsUseCases: NewsUseCases
-): ViewModel(){
+) : ViewModel() {
     val _state = mutableStateOf(MapState());
     val state : State<MapState> = _state;
+    val _result = mutableStateOf("");
+    val result : State<String> = _result;
+
 
     init {
         beaconScanner.initBluetooth()
         beaconScanner.bluetoothScanStart(beaconScanner.bleScanCallback)
+        viewModelScope.launch {
+            beaconScanner.resultBeacons.collect { result ->
+                _result.value = result
+            }
+        }
     }
     fun onEvent(event: MapEvent){
         when(event){
