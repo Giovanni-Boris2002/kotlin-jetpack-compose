@@ -43,12 +43,12 @@ import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 import dagger.hilt.android.AndroidEntryPoint
 import android.Manifest
 import android.util.Log
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.LaunchedEffect
+import com.example.projecto_suarez.util.Constants
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -89,10 +89,10 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            var locationPermissionsGranted by remember { mutableStateOf(areLocationPermissionsAlreadyGranted()) }
+            var requestPermissionsGranted by remember { mutableStateOf(areAllPermissionsGranted(Constants.PERMISSIONS)) }
             var shouldShowPermissionRationale by remember {
                 mutableStateOf(
-                    shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    shouldShowRequestPermissionAllRationale(Constants.PERMISSIONS)
                 )
             }
 
@@ -101,36 +101,33 @@ class MainActivity : ComponentActivity() {
             }
 
             var currentPermissionsStatus by remember {
-                mutableStateOf(decideCurrentPermissionStatus(locationPermissionsGranted, shouldShowPermissionRationale))
+                mutableStateOf(decideCurrentPermissionStatus(requestPermissionsGranted, shouldShowPermissionRationale))
             }
 
-            val locationPermissions = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
+            val androidPermissions = Constants.PERMISSIONS
 
-            val locationPermissionLauncher = rememberLauncherForActivityResult(
+            val requestPermissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestMultiplePermissions(),
                 onResult = { permissions ->
-                    locationPermissionsGranted = permissions.values.reduce { acc, isPermissionGranted ->
+                    requestPermissionsGranted = permissions.values.reduce { acc, isPermissionGranted ->
                         acc && isPermissionGranted
                     }
 
-                    if (!locationPermissionsGranted) {
+                    if (!requestPermissionsGranted) {
                         shouldShowPermissionRationale =
-                            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            shouldShowRequestPermissionAllRationale(Constants.PERMISSIONS)
                     }
-                    shouldDirectUserToApplicationSettings = !shouldShowPermissionRationale && !locationPermissionsGranted
-                    currentPermissionsStatus = decideCurrentPermissionStatus(locationPermissionsGranted, shouldShowPermissionRationale)
+                    shouldDirectUserToApplicationSettings = !shouldShowPermissionRationale && !requestPermissionsGranted
+                    currentPermissionsStatus = decideCurrentPermissionStatus(requestPermissionsGranted, shouldShowPermissionRationale)
                 })
 
             val lifecycleOwner = LocalLifecycleOwner.current
             DisposableEffect(key1 = lifecycleOwner, effect = {
                 val observer = LifecycleEventObserver { _, event ->
                     if (event == Lifecycle.Event.ON_START &&
-                        !locationPermissionsGranted &&
+                        !requestPermissionsGranted &&
                         !shouldShowPermissionRationale) {
-                        locationPermissionLauncher.launch(locationPermissions)
+                        requestPermissionLauncher.launch(androidPermissions)
                     }
                 }
                 lifecycleOwner.lifecycle.addObserver(observer)
@@ -164,7 +161,7 @@ class MainActivity : ComponentActivity() {
                         LaunchedEffect(Unit) {
                             scope.launch {
                                 val userAction = snackbarHostState.showSnackbar(
-                                    message ="Please authorize location permissions",
+                                    message ="Please authorize permissions to work with the app",
                                     actionLabel = "Approve",
                                     duration = SnackbarDuration.Indefinite,
                                     withDismissAction = true
@@ -172,7 +169,7 @@ class MainActivity : ComponentActivity() {
                                 when (userAction) {
                                     SnackbarResult.ActionPerformed -> {
                                         shouldShowPermissionRationale = false
-                                        locationPermissionLauncher.launch(locationPermissions)
+                                        requestPermissionLauncher.launch(androidPermissions)
                                     }
                                     SnackbarResult.Dismissed -> {
                                         shouldShowPermissionRationale = false
@@ -195,10 +192,21 @@ class MainActivity : ComponentActivity() {
     companion object {
         val TAG = "MainActivity"
     }
-    private fun areLocationPermissionsAlreadyGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun shouldShowRequestPermissionAllRationale(permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (shouldShowRequestPermissionRationale(permission)) {
+                return true
+            }
+        }
+        return false
+    }
+    private fun areAllPermissionsGranted(permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)!= PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
 
     private fun openApplicationSettings() {

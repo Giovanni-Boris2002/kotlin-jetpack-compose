@@ -1,5 +1,6 @@
 package com.example.projecto_suarez
 
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,6 +23,7 @@ class MainViewModel @Inject constructor(
         private set
     var startDestination by mutableStateOf(Route.AppStartNavigation.route)
         private set
+
 
     init {
         appEntryUseCases.readAppEntry().onEach{ shouldStartFromHomeScreen ->

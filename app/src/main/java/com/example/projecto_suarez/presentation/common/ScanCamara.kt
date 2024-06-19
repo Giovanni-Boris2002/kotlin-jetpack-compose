@@ -30,13 +30,14 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 
 @Composable
-fun ScanCamara(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun ScanCamara(modifier: Modifier = Modifier, onResult: (String) -> Unit) {
     var resultScan by remember { mutableStateOf("") }
     val scanLauncher = rememberLauncherForActivityResult(
         contract = ScanContract(),
         onResult = {
             resultScan = it.contents?: "Sin resultado"
             Log.d("Camera",resultScan)
+            onResult(resultScan)
         }
     )
     Box(

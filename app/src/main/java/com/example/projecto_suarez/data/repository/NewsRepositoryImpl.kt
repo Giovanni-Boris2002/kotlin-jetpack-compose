@@ -7,6 +7,7 @@ import com.example.projecto_suarez.data.local.NewsDao
 import com.example.projecto_suarez.data.remote.NewsApi
 import com.example.projecto_suarez.data.remote.NewsPagingSource
 import com.example.projecto_suarez.data.remote.SearchNewsPagingSource
+import com.example.projecto_suarez.data.remote.dto.NewsResponse
 import com.example.projecto_suarez.domain.model.Article
 import com.example.projecto_suarez.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
@@ -39,6 +40,9 @@ class NewsRepositoryImpl(
                 )
             }
         ).flow
+    }
+    override suspend fun getNewsById(sources: List<String>, id: Int): NewsResponse {
+        return newsApi.getNewsById(sources.joinToString(separator = ","), 1)
     }
     override suspend fun upsertArticle(article: Article) {
         newsDao.upsert(article)

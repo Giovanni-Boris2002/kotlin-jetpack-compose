@@ -43,7 +43,7 @@ fun DetailsScreen(
 ){
     val context = LocalContext.current
     val player = remember { ExoPlayer.Builder(context).build() }
-    val mediaSource = remember { MediaItem.fromUri("https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3") }
+    val mediaSource = remember { MediaItem.fromUri("https://cdn.pixabay.com/audio/2024/05/28/audio_b2262b5e4d.mp3") }
 
     /*LaunchedEffect(Unit) {
         Log.d("My component", "Release")

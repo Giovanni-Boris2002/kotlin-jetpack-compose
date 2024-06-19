@@ -28,9 +28,8 @@ class DetailsViewModel @Inject constructor(
                         deleteArticle(event.article)
                 }
             }
-            is DetailsEvent.RemoveSideEffect -> {
-                sideEffect = null
-            }
+
+            DetailsEvent.RemoveSideEffect -> TODO()
         }
     }
     private suspend fun upsertArticle(article: Article) {

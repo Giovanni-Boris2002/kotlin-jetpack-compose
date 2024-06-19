@@ -10,7 +10,7 @@ class SearchNewsPagingSource(
     private val sources: String
 ): PagingSource<Int, Article>() {
 
-    private var totaltNewsCount  = 0
+    private var totalNewsCount  = 0
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -23,11 +23,11 @@ class SearchNewsPagingSource(
         val page = params.key ?: 1
         return try {
             val newsResponse = newsApi.searchNews( searchQuery = searchQuery, sources = sources, page = page )
-            totaltNewsCount += newsResponse.articles.size
+            totalNewsCount += newsResponse.articles.size
             var articles = newsResponse.articles.distinctBy { it.title }
             LoadResult.Page(
                 data = articles,
-                nextKey = if (totaltNewsCount == newsResponse.totalResults) null else page + 1,
+                nextKey = if (totalNewsCount == newsResponse.totalResults) null else page + 1,
                 prevKey = null
             )
         } catch(e: Exception){

@@ -168,7 +168,6 @@ fun NewsNavigator() {
             composable(route = Route.BookmarkScreen.route) {
                 val viewModel: BookmarkViewModel = hiltViewModel()
                 val state = viewModel.state.value
-                //OnBackClickStateSaver(navController = navController)
                 BookmarkScreen(
                     state = state,
                     navigateToDetails = { article ->
@@ -186,7 +185,16 @@ fun NewsNavigator() {
                 val viewModel: BeaconViewModel = hiltViewModel()
                 val state = viewModel.state.value
 
-                MapScreen(state)
+                MapScreen(
+                    state = state,
+                    event = viewModel::onEvent,
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
+                )
             }
         }
     }
