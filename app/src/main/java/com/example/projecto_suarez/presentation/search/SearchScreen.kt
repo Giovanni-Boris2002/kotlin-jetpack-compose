@@ -13,6 +13,7 @@ import com.example.projecto_suarez.domain.model.Article
 import com.example.projecto_suarez.presentation.Dimens.MediumPadding1
 import com.example.projecto_suarez.presentation.common.ArticlesList
 import com.example.projecto_suarez.presentation.common.SearchBar
+import com.example.projecto_suarez.presentation.map.CanvasMap
 import com.example.projecto_suarez.presentation.navgraph.Route
 
 @Composable
@@ -42,5 +43,7 @@ fun SearchScreen(
             var articles = it.collectAsLazyPagingItems()
             ArticlesList(articles = articles, onClick = { navigateToDetails(it) })
         }
+
+        CanvasMap()
     }
 }
