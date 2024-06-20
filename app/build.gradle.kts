@@ -110,4 +110,8 @@ dependencies {
 
     //Camara
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //Google Maps
+    implementation("com.google.maps.android:maps-compose:2.4.0")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 }

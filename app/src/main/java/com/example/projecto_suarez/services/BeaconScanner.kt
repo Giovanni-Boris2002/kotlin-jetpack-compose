@@ -10,10 +10,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.projecto_suarez.util.BeaconLibrary.Beacon
 import com.example.projecto_suarez.util.BeaconLibrary.BeaconParser
 import com.example.projecto_suarez.util.BeaconLibrary.BleScanCallback
+import com.example.projecto_suarez.util.Constants
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 class BeaconScanner(private val context: Context) {
@@ -21,8 +25,11 @@ class BeaconScanner(private val context: Context) {
 
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
-    private lateinit var btScanner: BluetoothLeScanner
-    private val beacons = HashMap<String, Beacon>()
+    private var btScanner: BluetoothLeScanner? = null;
+    private val beacons = HashMap<String, Beacon>();
+    private val _resultBeacons = MutableStateFlow("No beacons Detected")
+    val resultBeacons: StateFlow<String> = _resultBeacons
+
 
     fun initBluetooth() {
 
@@ -39,20 +46,31 @@ class BeaconScanner(private val context: Context) {
     fun bluetoothScanStart(bleScanCallback: BleScanCallback) {
         Log.d(TAG, "btScan ...1")
         if (btScanner != null) {
+
             Log.d(TAG, "btScan ...2")
+
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-
+                return
             }
-            btScanner.startScan(bleScanCallback)
+            if(!checkPermissions(context, Constants.PERMISSIONS)) return;
+            btScanner?.startScan(bleScanCallback)
 
         } else {
             Log.d(TAG, "btScanner is null")
         }
 
+    }
+    private fun checkPermissions(context: Context, permissions: Array<String>): Boolean{
+        for (permission in permissions) {
+            if (ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
     @SuppressLint("MissingPermission")
     private fun bluetoothScanStop(bleScanCallback: BleScanCallback) {
@@ -85,6 +103,7 @@ class BeaconScanner(private val context: Context) {
                     beaconSave.rssi = parserBeacon.rssi
                 };
                 val distance = parserBeacon.txPower?.let { it1 -> parserBeacon.rssi?.let { it2 -> beaconSave?.calculateDistance(txPower = it1, rssi = it2) } }
+                _resultBeacons.value =  beaconSave.toString() + "distance "+ distance;
                 Log.d(TAG, beaconSave.toString() + "distance "+ distance);
 
             }
@@ -106,5 +125,8 @@ class BeaconScanner(private val context: Context) {
         onBatchScanResultAction,
         onScanFailedAction
     )
+    fun changeDetection(updateUI: (String)->Unit, result:String){
+        updateUI(result)
+    }
 
 }

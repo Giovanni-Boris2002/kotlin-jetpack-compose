@@ -14,6 +14,7 @@ import com.example.projecto_suarez.domain.usescases.app_entry.AppEntryUseCases
 import com.example.projecto_suarez.domain.usescases.app_entry.ReadAppEntry
 import com.example.projecto_suarez.domain.usescases.app_entry.SaveAppEntry
 import com.example.projecto_suarez.domain.usescases.news.DeleteArticle
+import com.example.projecto_suarez.domain.usescases.news.GetNewById
 import com.example.projecto_suarez.domain.usescases.news.GetNews
 import com.example.projecto_suarez.domain.usescases.news.NewsUseCases
 import com.example.projecto_suarez.domain.usescases.news.SearchNews
@@ -77,7 +78,8 @@ object AppModule {
             upsertArticle = UpsertArticle(newsRepository),
             deleteArticle = DeleteArticle(newsRepository),
             selectArticles = SelectArticles(newsRepository),
-            selectArticle = SelectArticle(newsRepository)
+            selectArticle = SelectArticle(newsRepository),
+            searchNewById = GetNewById(newsRepository),
         )
     }
 

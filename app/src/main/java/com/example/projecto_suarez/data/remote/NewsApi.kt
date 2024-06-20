@@ -21,4 +21,12 @@ interface NewsApi {
         @Query("page") page: Int,
         @Query("apiKey") apiKey: String = API_KEY
     ): NewsResponse
+
+    @GET("everything")
+    suspend fun getNewsById(
+        @Query("sources") sources: String,
+        @Query("pageSize") pageSize: Int,
+        @Query("apiKey") apiKey: String = API_KEY
+    ): NewsResponse
+
 }

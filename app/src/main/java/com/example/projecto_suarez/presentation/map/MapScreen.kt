@@ -1,28 +1,35 @@
 package com.example.projecto_suarez.presentation.map
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projecto_suarez.domain.model.Article
+import com.example.projecto_suarez.presentation.Dimens
 import com.example.projecto_suarez.presentation.common.ScanCamara
-import com.example.projecto_suarez.services.BeaconScanner
-import org.altbeacon.beacon.RegionViewModel
 
 @Composable
-fun MapScreen(state: MapState) {
-    ScanCamara(){
-
-    }
+fun MapScreen(
+    result: String,
+    state: MapState,
+    event: (MapEvent) -> Unit,
+    navigateToDetails: (Article) -> Unit) {
+    ScanCamara(
+        onResult = { event(MapEvent.RedirectoToDetails(it, navigateToDetails))}
+    )
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+            .padding(
+                top = Dimens.MediumPadding1,
+                start = Dimens.MediumPadding1,
+                end = Dimens.MediumPadding1
+            )
+            .statusBarsPadding()
+            .fillMaxSize()
     ) {
         Text("Detected Beacons:")
+        Text(result)
         Spacer(modifier = Modifier.height(8.dp))
         state.beacons?.forEach { beacon ->
             Text(text = beacon)
@@ -30,5 +37,4 @@ fun MapScreen(state: MapState) {
         }
 
     }
-    Text("Detected Beacons:")
 }
