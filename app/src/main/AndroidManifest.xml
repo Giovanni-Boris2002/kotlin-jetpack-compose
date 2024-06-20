@@ -30,7 +30,10 @@
         android:hardwareAccelerated="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDLK2pZI--ESDXSK3vEkFfUW5DuKM8eSQM"/>
+            android:value="AIzaSyBl9BnXVouGcoVzoiF2sdOCeEl7QenrGJ4"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".MainActivity"
