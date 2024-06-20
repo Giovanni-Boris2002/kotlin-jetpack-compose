@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.projecto_suarez.domain.model.Article
+import com.example.projecto_suarez.presentation.Dimens
 import com.example.projecto_suarez.presentation.common.ScanCamara
 
 @Composable
@@ -19,8 +20,13 @@ fun MapScreen(
     )
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+            .padding(
+                top = Dimens.MediumPadding1,
+                start = Dimens.MediumPadding1,
+                end = Dimens.MediumPadding1
+            )
+            .statusBarsPadding()
+            .fillMaxSize()
     ) {
         Text("Detected Beacons:")
         Text(result)
@@ -31,5 +37,4 @@ fun MapScreen(
         }
 
     }
-    Text("Detected Beacons:")
 }
