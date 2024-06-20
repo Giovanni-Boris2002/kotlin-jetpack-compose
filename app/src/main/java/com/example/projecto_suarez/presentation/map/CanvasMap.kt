@@ -57,9 +57,41 @@ fun CanvasMap() {
                 var path = Path().apply {
                     moveTo(0f, 0f)
                     lineTo(size.width, 0f)
+                    moveTo(size.width, 50f)
                     lineTo(size.width, size.height)
-                    lineTo(0f, size.height)
-                    close()
+                    lineTo((size.width*79/100), size.height)
+                    moveTo((size.width*79/100)-50, size.height)
+                    lineTo(size.width*40/100,size.height)
+                    moveTo((size.width*40/100)-50, size.height)
+                    lineTo(0f,size.height)
+                    lineTo(0f, 0f)
+                    moveTo(size.width*55/100,0f)
+                    lineTo(size.width*55/100,size.height*29/100)
+                    lineTo(size.width-50,size.height*29/100)
+                    moveTo(size.width*55/100,size.height*29/100)
+                    lineTo(size.width*515/1000,size.height*29/100)
+
+                    moveTo(size.width*48/100,0f)
+                    lineTo(size.width*48/100,size.height*29/100-50)
+                    lineTo(size.width*515/1000,size.height*29/100-50)
+                    lineTo(size.width*515/1000,size.height*29/100-25)
+                    moveTo(size.width*48/100,size.height*29/100-50)
+                    lineTo(size.width*41/100,size.height*29/100-50)
+                    lineTo(size.width*41/100,size.height*29/100)
+                    lineTo(size.width*41/100+50,size.height*29/100)
+                    moveTo(size.width*41/100,size.height*29/100)
+                    lineTo(size.width*41/100-25,size.height*29/100)
+
+                    moveTo(size.width*41/100-75,size.height*29/100)
+                    lineTo(0f,size.height*29/100)
+
+                    moveTo(size.width-50, size.height*71/100)
+                    lineTo(size.width-100, size.height*71/100)
+                    lineTo(size.width-100, size.height*805/1000)
+                    moveTo(size.width-100, size.height*805/1000 + 50)
+                    lineTo(size.width-100, size.height)
+                    moveTo(size.width-100, size.height-100)
+                    lineTo(size.width*40/100, size.height-100)
                 }
 
                 drawPath(
@@ -87,8 +119,8 @@ fun CanvasMap() {
             }
             picture(1, maxWidth*.1f, maxHeight*.1f, maxWidth, maxHeight)
             picture(2, maxWidth*.3f, maxHeight*.1f, maxWidth, maxHeight)
-            picture(3, maxWidth*.5f, maxHeight*.1f, maxWidth, maxHeight)
-            picture(4, maxWidth*.7f, maxHeight*.1f, maxWidth, maxHeight)
+            picture(3, maxWidth*.6f, maxHeight*.1f, maxWidth, maxHeight)
+            picture(4, maxWidth*.8f, maxHeight*.1f, maxWidth, maxHeight)
         }
         Button(onClick = { point = Pair((Math.random()*maxCanvasW).toFloat(), (Math.random()*maxCanvasH).toFloat()) }) {
             Text("Mi ubicación")
