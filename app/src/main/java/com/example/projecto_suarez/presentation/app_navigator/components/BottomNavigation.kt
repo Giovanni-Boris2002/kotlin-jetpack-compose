@@ -1,4 +1,4 @@
-package com.example.projecto_suarez.presentation.news_navigator.components
+package com.example.projecto_suarez.presentation.app_navigator.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.DrawableRes
@@ -26,7 +26,7 @@ import com.example.projecto_suarez.presentation.Dimens.IconSize
 import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 
 @Composable
-fun NewsBottomNavigation(
+fun BottomNavigation(
     items: List<BottomNavigationItem>,
     selectedItem: Int,
     onItemClick: (Int) -> Unit
@@ -74,7 +74,7 @@ data class BottomNavigationItem(
 @Composable
 fun NewsBottomNavigationPreview() {
     ProjectosuarezTheme() {
-        NewsBottomNavigation(items = listOf(
+        BottomNavigation(items = listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = "Home"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Search"),
             BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Bookmark"),

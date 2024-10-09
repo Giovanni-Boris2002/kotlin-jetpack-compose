@@ -13,17 +13,14 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.compose.LazyPagingItems
 import com.example.projecto_suarez.R
-import com.example.projecto_suarez.domain.model.Article
+import com.example.projecto_suarez.data.remote.dto.GeneralResponse
+import com.example.projecto_suarez.data.remote.dto.LabResponse
 import com.example.projecto_suarez.presentation.Dimens.MediumPadding1
 import com.example.projecto_suarez.presentation.common.ArticlesList
 import com.example.projecto_suarez.presentation.common.SearchBar
@@ -31,21 +28,12 @@ import com.example.projecto_suarez.presentation.common.SearchBar
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    articles: LazyPagingItems<Article>,
+    articles: List<LabResponse>,
     navigateToSearch: () -> Unit,
-    navigateToDetails: (Article) -> Unit
+    navigateToDetails: (LabResponse) -> Unit
 ){
-    val titles by remember {
-        derivedStateOf {
-            if(articles.itemCount > 10){
-                articles.itemSnapshotList.items
-                    .slice(IntRange(start = 0, endInclusive = 9))
-                    .joinToString(separator = " \uD83D\uDFE5 ") { it.title }
-            } else {
-                ""
-            }
-        }
-    }
+    val titles = "matriculas unsa"
+
     Column(
         modifier = Modifier
             .fillMaxSize()

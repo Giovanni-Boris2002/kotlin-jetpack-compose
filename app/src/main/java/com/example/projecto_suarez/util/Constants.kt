@@ -10,9 +10,9 @@ object Constants {
 
     const val API_KEY = "bf2e296a2bd9493eb7b4323da1cf5d0b"
 
-    const val BASE_URL = "https://newsapi.org/v2/"
+    const val BASE_URL = "https://3jeyt5r7o7.execute-api.us-east-1.amazonaws.com"
 
-    const val NEWS_DATABASE_NAME = "news_db"
+    const val NEWS_DATABASE_NAME = "pictures_db"
 
     val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         arrayOf(

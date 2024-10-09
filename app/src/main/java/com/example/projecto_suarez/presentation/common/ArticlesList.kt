@@ -10,15 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.example.projecto_suarez.domain.model.Article
+import com.example.projecto_suarez.data.remote.dto.GeneralResponse
+import com.example.projecto_suarez.data.remote.dto.LabResponse
 import com.example.projecto_suarez.presentation.Dimens.ExtraSmallPadding2
 import com.example.projecto_suarez.presentation.Dimens.MediumPadding1
 
 @Composable
 fun ArticlesList(
     modifier: Modifier = Modifier,
-    articles: List<Article>,
-    onClick: (Article) -> Unit
+    articles: List<LabResponse>,
+    onClick: (LabResponse) -> Unit
 ){
         if (articles.isEmpty()){
             EmptyScreen()
@@ -39,8 +40,8 @@ fun ArticlesList(
 @Composable
 fun  ArticlesList(
     modifier: Modifier = Modifier,
-    articles: LazyPagingItems<Article>,
-    onClick: (Article) -> Unit
+    articles: LazyPagingItems<LabResponse>,
+    onClick: (LabResponse) -> Unit
 ){
     val handlePagingResult = handlePagingResult(articles)
 
@@ -65,7 +66,7 @@ fun  ArticlesList(
 
 @Composable
 fun handlePagingResult(
-    articles: LazyPagingItems<Article>
+    articles: LazyPagingItems<LabResponse>
 ): Boolean {
     val loadState = articles.loadState
     val error = when {

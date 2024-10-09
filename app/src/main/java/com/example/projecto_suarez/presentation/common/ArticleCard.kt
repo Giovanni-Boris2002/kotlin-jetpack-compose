@@ -1,6 +1,5 @@
 package com.example.projecto_suarez.presentation.common
 
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,11 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.projecto_suarez.domain.model.Article
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecto_suarez.R
-import com.example.projecto_suarez.domain.model.Source
+import com.example.projecto_suarez.data.remote.dto.GeneralResponse
+import com.example.projecto_suarez.data.remote.dto.LabResponse
 import com.example.projecto_suarez.presentation.Dimens.ArticleCardSize
 import com.example.projecto_suarez.presentation.Dimens.ExtraSmallPadding
 import com.example.projecto_suarez.presentation.Dimens.ExtraSmallPadding2
@@ -39,7 +38,7 @@ import com.example.projecto_suarez.ui.theme.ProjectosuarezTheme
 @Composable
 fun ArticleCard(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: LabResponse,
     onClick: () -> Unit
 ){
     val context = LocalContext.current
@@ -70,7 +69,7 @@ fun ArticleCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = article.source.name,
+                    text = article.desc,
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     color = colorResource(id = R.color.body)
                 )
@@ -82,32 +81,8 @@ fun ArticleCard(
                     tint = colorResource(id = R.color.body)
                 )
                 Spacer(modifier = Modifier.width(ExtraSmallPadding))
-                Text(
-                    text = article.publishedAt,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = colorResource(id = R.color.body)
-                )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun ArticleCardPreview() {
-    ProjectosuarezTheme {
-        ArticleCard(
-            article = Article(
-                author = "",
-                content = "",
-                description = "",
-                publishedAt = "2 hours",
-                source = Source(id = "", name = "BBC"),
-                title = "Her train broke down. Her phone died. And then she met her Saver in a",
-                url = "",
-                urlToImage = "https://ichef.bbci.co.uk/live-experience/cps/624/cpsprodpb/11787/production/_124395517_bbcbreakingnewsgraphic.jpg"
-            )
-        ) {}
-    }
-}
